@@ -40,15 +40,9 @@ const UserInfoTable = ({ users, handleEdit }) => {
             <tr key={user.id} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
               <td>{user.id}</td>
               <td>
-                {editingId === user.id ? (
-                  <>
-                    <button onClick={() => handleCancel()}>Cancel</button>
-                  </>
-                ) : (
-                  <button onClick={() => { handleEdit(user.id); setEditingId(user.id); }}>
-                    <FaPencilAlt />
-                  </button>
-                )}
+                <button onClick={() => { handleEdit(user.id); setEditingId(user.id); }}>
+                  <FaPencilAlt />
+                </button>
               </td>
               <td>{editingId === user.id ? <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} /> : user.firstname}</td>
               <td>{editingId === user.id ? <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} /> : user.lastname}</td>
