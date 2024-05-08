@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { FaPencilAlt } from 'react-icons/fa';
+import userData from './data/sample-data.json';
+import './style.css';
+import MyForm from './form.js'; 
+import UserInfoTable from './UserInfoTable.js'; 
 
 function App() {
+  const [isEditing, setIsEditing] = useState(false); 
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {isEditing ? <MyForm /> : <UserInfoTable users={userData} handleEdit={handleEdit} />}
     </div>
   );
-}
+};
 
 export default App;
