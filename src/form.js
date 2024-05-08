@@ -9,7 +9,49 @@ function MyForm() {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleAdd = () => {
-    // โค้ดที่มีอยู่ใน handleAdd ไม่เปลี่ยนแปลง
+    
+    if (isNaN(score)) {
+      setErrorMessage('Score must be a number.');
+      return;
+    }
+    
+    const scoreNumber = parseFloat(score);
+    if (scoreNumber < 0) {
+      setErrorMessage('Minimum score is 0.');
+      return;
+    }
+    if (scoreNumber > 100) {
+      setErrorMessage('Maximum score is 100.');
+      return;
+    }
+
+    const newData = {
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender,
+      score: scoreNumber 
+    };
+
+    fetch('/api/addData', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newData)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data added:', data);
+        setFirstName('');
+        setLastName('');
+        setGender('');
+        setScore('');
+        setErrorMessage('');
+      })
+      .catch(error => {
+        console.error('Error adding data:', error);
+        setErrorMessage('Error adding data. Please try again.');
+      });
   };
 
   const handleCancel = () => {
@@ -41,6 +83,7 @@ function MyForm() {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
+              {errorMessage && !firstName && <p className="error">first name is required.</p>}
             </th>
             <th>
               <input
@@ -48,6 +91,7 @@ function MyForm() {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
+              {errorMessage && !lastName && <p className="error">last name is required.</p>}
             </th>
           </tr>
           <tr>
@@ -65,6 +109,7 @@ function MyForm() {
                 <option value="Female">Female</option>
                 <option value="Unknown">Unknown</option>
               </select>
+              {errorMessage && !gender && <p className="error">gender is required.</p>}
             </th>
             <th>
               <input
@@ -72,6 +117,10 @@ function MyForm() {
                 value={score}
                 onChange={(e) => setScore(e.target.value)}
               />
+              {errorMessage && !score && <p className="error">score is required.</p>}
+              {errorMessage === 'Score must be a number.' && <p className="error">Score must be a number.</p>}
+              {errorMessage === 'Minimum score is 0.' && <p className="error">Minimum score is 0.</p>}
+              {errorMessage === 'Maximum score is 100.' && <p className="error">Maximum score is 100.</p>}
             </th>
           </tr>
           <tr>
