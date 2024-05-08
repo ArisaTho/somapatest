@@ -9,21 +9,8 @@ function MyForm() {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleAdd = () => {
-    
-    if (isNaN(score)) {
-      setErrorMessage('Score must be a number.');
-      return;
-    }
-    
+  
     const scoreNumber = parseFloat(score);
-    if (scoreNumber < 0) {
-      setErrorMessage('Minimum score is 0.');
-      return;
-    }
-    if (scoreNumber > 100) {
-      setErrorMessage('Maximum score is 100.');
-      return;
-    }
 
     const newData = {
       firstName: firstName,
